@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>urahaku</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1A2744;
+    --gold: #C9A96E;
+    --gold-light: #E8D5A8;
+    --white: #ffffff;
+    --bg: #FAFAF8;
+    --bg-mid: #F4F2EE;
+    --text: #1A1A1A;
+    --text-mid: #555;
+    --text-light: #999;
+    --border: #E8E2D8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 68px;
+    background: var(--navy);
+    border-bottom: 0.5px solid rgba(201,169,110,0.25);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo-text { display: flex; flex-direction: column; gap: 3px; }
+  .nav-logo-text .wordmark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 400;
+    letter-spacing: 0.28em;
+    color: var(--gold-light);
+    line-height: 1;
+    text-transform: lowercase;
+    border-bottom: 0.5px solid rgba(201,169,110,0.35);
+    padding-bottom: 4px;
+  }
+  .nav-logo-text .tagline { font-family: 'Noto Sans JP', sans-serif; font-size: 8px; font-weight: 400; letter-spacing: 0.2em; color: rgba(201,169,110,0.5); line-height: 1; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 400; letter-spacing: 0.05em; color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-contact { font-size: 13px; color: rgba(255,255,255,0.8); letter-spacing: 0.06em; border: 0.5px solid rgba(201,169,110,0.4); padding: 8px 20px; border-radius: 2px; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+  .nav-contact:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero { padding: 128px 80px 88px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; min-height: 85vh; }
+  .hero-label { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 0.22em; color: var(--gold); margin-bottom: 22px; }
+  .hero-title { font-family: 'Noto Serif JP', serif; font-size: 52px; font-weight: 500; color: var(--text); line-height: 1.65; letter-spacing: 0.04em; margin-bottom: 28px; }
+  .hero-desc { font-size: 17px; font-weight: 400; color: var(--text-mid); line-height: 2.1; margin-bottom: 38px; letter-spacing: 0.04em; }
+  .hero-btns { display: flex; gap: 12px; }
+
+  .btn-primary { background: var(--navy); color: #fff; padding: 14px 30px; border-radius: 2px; font-size: 15px; font-weight: 400; letter-spacing: 0.06em; text-decoration: none; transition: opacity 0.2s; display: inline-block; }
+  .btn-primary:hover { opacity: 0.82; }
+  .btn-outline { border: 1px solid var(--border); color: var(--text-mid); padding: 14px 30px; border-radius: 2px; font-size: 15px; font-weight: 400; letter-spacing: 0.05em; text-decoration: none; transition: border-color 0.2s, color 0.2s; display: inline-block; }
+  .btn-outline:hover { border-color: var(--text-mid); color: var(--text); }
+
+  .hero-right { display: flex; flex-direction: column; gap: 11px; }
+  .hero-sublabel { font-size: 13px; font-weight: 400; color: var(--text-light); letter-spacing: 0.06em; margin-bottom: 6px; }
+  .hero-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: 4px; padding: 16px 20px; display: flex; align-items: center; gap: 16px; text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+  .hero-card:hover { border-color: var(--gold); background: #fff; }
+  .hc-date { text-align: center; min-width: 40px; border-right: 0.5px solid var(--border); padding-right: 14px; }
+  .hc-date .mo { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: var(--gold); letter-spacing: 0.12em; display: block; }
+  .hc-date .dy { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 400; color: var(--text); line-height: 1.1; display: block; }
+  .hc-info { flex: 1; }
+  .hc-info .ti { font-family: 'Noto Serif JP', serif; font-size: 15px; font-weight: 400; color: var(--text); margin-bottom: 4px; }
+  .hc-info .ve { font-size: 13px; font-weight: 400; color: var(--text-light); }
+  .badge { font-size: 11px; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .badge-open { background: #EAF3DE; color: #3B6D11; }
+  .badge-light { background: #E6EDF8; color: #2A4E80; }
+  .badge-soon { background: #FEF3E2; color: #8B5C00; }
+
+  .divider { border: none; border-top: 0.5px solid var(--border); margin: 0 80px; }
+
+  .section { padding: 88px 0; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 80px; }
+  .sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; }
+  .sec-title { font-family: 'Noto Serif JP', serif; font-size: 28px; font-weight: 400; color: var(--text); letter-spacing: 0.04em; }
+  .sec-link { font-size: 14px; font-weight: 400; color: var(--text-light); text-decoration: none; transition: color 0.2s; }
+  .sec-link:hover { color: var(--text); }
+
+  .tabs { display: flex; margin-bottom: 28px; border-bottom: 1px solid var(--border); }
+  .tab-btn { font-size: 15px; font-weight: 400; letter-spacing: 0.04em; color: var(--text-light); padding: 10px 24px; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; }
+  .tab-btn.active { color: var(--navy); border-bottom-color: var(--navy); font-weight: 500; }
+  .tab-btn:hover:not(.active) { color: var(--text-mid); }
+
+  .grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+
+  .flyer { border-radius: 4px; overflow: hidden; border: 0.5px solid var(--border); cursor: pointer; transition: border-color 0.2s, transform 0.2s; background: var(--white); }
+  .flyer:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .flyer.active { border: 1.5px solid var(--navy); }
+  .flyer-img { width: 100%; aspect-ratio: 2/3; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; text-align: center; position: relative; }
+  .flyer-type { position: absolute; top: 10px; left: 10px; font-size: 11px; font-weight: 400; padding: 3px 10px; border-radius: 20px; }
+  .tc { background: rgba(26,39,68,0.1); color: var(--navy); }
+  .tl { background: rgba(42,78,128,0.1); color: #2A4E80; }
+  .f-date { font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.12em; margin-bottom: 10px; opacity: 0.65; }
+  .f-title { font-family: 'Noto Serif JP', serif; font-size: 17px; font-weight: 400; line-height: 1.65; letter-spacing: 0.02em; margin-bottom: 8px; }
+  .f-sub { font-size: 12px; font-weight: 400; letter-spacing: 0.05em; opacity: 0.6; }
+  .flyer-foot { padding: 11px 14px; display: flex; align-items: center; justify-content: space-between; border-top: 0.5px solid var(--border); background: var(--white); }
+  .f-venue { font-size: 12px; font-weight: 400; color: var(--text-mid); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 130px; }
+  .s-open { background: #EAF3DE; color: #3B6D11; font-size: 11px; font-weight: 400; padding: 3px 10px; border-radius: 20px; }
+  .s-soon { background: #FEF3E2; color: #8B5C00; font-size: 11px; font-weight: 400; padding: 3px 10px; border-radius: 20px; }
+
+  .detail-wrap { margin-top: 18px; position: relative; }
+  .detail-panel { display: none; background: var(--bg); border: 0.5px solid var(--border); border-radius: 6px; padding: 36px 40px; animation: si 0.2s ease; }
+  @keyframes si { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .d-close { position: absolute; top: 16px; right: 20px; font-size: 20px; color: var(--text-light); cursor: pointer; padding: 4px 8px; line-height: 1; }
+  .d-close:hover { color: var(--text); }
+  .d-date { font-family: 'Cormorant Garamond', serif; font-size: 14px; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 8px; }
+  .d-title { font-family: 'Noto Serif JP', serif; font-size: 26px; font-weight: 400; color: var(--text); line-height: 1.6; margin-bottom: 22px; }
+  .d-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
+  .d-table td { padding: 12px 0; border-bottom: 0.5px solid var(--border); font-size: 15px; font-weight: 400; vertical-align: top; line-height: 1.7; }
+  .d-table td:first-child { color: var(--text-light); width: 64px; font-size: 14px; }
+  .d-desc { font-size: 15px; font-weight: 400; color: var(--text-mid); line-height: 2; }
+  .d-right { border-left: 0.5px solid var(--border); padding-left: 40px; }
+  .d-tlabel { font-size: 13px; font-weight: 400; letter-spacing: 0.08em; color: var(--text-light); margin-bottom: 14px; }
+  .t-list { display: flex; flex-direction: column; gap: 9px; }
+  .t-item { display: flex; align-items: center; justify-content: space-between; padding: 13px 18px; border: 0.5px solid var(--border); border-radius: 3px; text-decoration: none; color: var(--text); font-size: 15px; font-weight: 400; background: var(--white); transition: border-color 0.2s; }
+  .t-item:hover { border-color: var(--text-mid); }
+  .t-item.tel { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .t-item.tel:hover { opacity: 0.88; }
+  .t-arr { font-size: 13px; color: var(--text-light); }
+  .t-item.tel .t-arr { color: rgba(255,255,255,0.4); }
+
+  .about-section { background: var(--bg); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+  .ab-title { font-family: 'Noto Serif JP', serif; font-size: 30px; font-weight: 400; color: var(--text); line-height: 1.7; letter-spacing: 0.03em; margin-bottom: 18px; }
+  .ab-text { font-size: 16px; font-weight: 400; color: var(--text-mid); line-height: 2.1; letter-spacing: 0.03em; margin-bottom: 28px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+  .icard { background: var(--white); border: 0.5px solid var(--border); border-radius: 4px; padding: 22px 18px; }
+  .icard-ico { width: 32px; height: 32px; background: var(--bg-mid); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+  .icard-ico svg { width: 16px; height: 16px; stroke: var(--navy); }
+  .icard-title { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .icard-text { font-size: 13px; font-weight: 400; color: var(--text-mid); line-height: 1.8; }
+
+  .co-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+  .co-title { font-family: 'Noto Serif JP', serif; font-size: 30px; font-weight: 400; color: var(--text); line-height: 1.7; margin-bottom: 17px; }
+  .co-text { font-size: 16px; font-weight: 400; color: var(--text-mid); line-height: 2; margin-bottom: 28px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 20px; }
+  .tag { font-size: 14px; font-weight: 400; padding: 7px 16px; border: 0.5px solid var(--border); border-radius: 40px; color: var(--text-mid); }
+  .tag.on { background: var(--navy); color: var(--gold-light); border-color: var(--navy); }
+
+  footer { background: var(--navy); padding: 52px 0 26px; }
+  .f-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; }
+  .f-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; letter-spacing: 0.24em; color: var(--gold-light); margin-bottom: 7px; }
+  .f-tagline { font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.32); letter-spacing: 0.04em; }
+  .f-cols { display: flex; gap: 44px; }
+  .f-ch { font-size: 10px; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 13px; }
+  .f-col a { display: block; font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.55); text-decoration: none; margin-bottom: 9px; letter-spacing: 0.03em; transition: color 0.2s; }
+  .f-col a:hover { color: rgba(255,255,255,0.88); }
+  .f-bottom { border-top: 0.5px solid rgba(255,255,255,0.08); padding-top: 18px; }
+  .f-copy { font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; }
+
+  .tel-btn { position: fixed; bottom: 24px; right: 24px; background: var(--navy); border: 0.5px solid rgba(201,169,110,0.4); border-radius: 40px; padding: 12px 22px; display: flex; align-items: center; gap: 8px; text-decoration: none; z-index: 50; transition: opacity 0.2s; }
+  .tel-btn:hover { opacity: 0.85; }
+  .tel-btn svg { width: 15px; height: 15px; stroke: var(--gold); flex-shrink: 0; }
+  .tel-btn span { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.85); letter-spacing: 0.04em; }</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-text">
+      <span class="wordmark">urahaku</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#concerts">公演一覧</a></li>
+    <li><a href="#about">urahakuとは</a></li>
+    <li><a href="#collab">コラボレーション</a></li>
+    <li><a href="#">アーティストの方へ</a></li>
+  </ul>
+  <a href="#contact" class="nav-contact">お問い合わせ</a>
+</nav>
+
+<div class="hero">
+  <div>
+    <h1 class="hero-title">音楽が、<br>日常を豊かにする。</h1>
+    <p class="hero-desc">演奏会の企画・チケット運用から、<br>音楽と異業種のコラボレーションまで。<br>音楽の可能性を、一緒に広げていきます。</p>
+    <div class="hero-btns">
+      <a href="#concerts" class="btn-primary">公演一覧を見る</a>
+      <a href="#about" class="btn-outline">urahakuについて</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <p class="hero-sublabel">直近の公演</p>
+    <a class="hero-card" href="#concerts">
+      <div class="hc-date"><span class="mo">APR</span><span class="dy">12</span></div>
+      <div class="hc-info"><p class="ti">春のピアノリサイタル</p><p class="ve">東京文化会館 小ホール</p></div>
+      <span class="badge badge-open">受付中</span>
+    </a>
+    <a class="hero-card" href="#concerts">
+      <div class="hc-date"><span class="mo">MAY</span><span class="dy">3</span></div>
+      <div class="hc-info"><p class="ti">寝そべりクラシック vol.1</p><p class="ve">代官山 某スペース</p></div>
+      <span class="badge badge-light">ライト系</span>
+    </a>
+    <a class="hero-card" href="#concerts">
+      <div class="hc-date"><span class="mo">JUN</span><span class="dy">20</span></div>
+      <div class="hc-info"><p class="ti">室内楽の午後</p><p class="ve">浜離宮朝日ホール</p></div>
+      <span class="badge badge-soon">近日公開</span>
+    </a>
+  </div>
+</div>
+
+<hr class="divider">
+
+<section class="section" id="concerts">
+  <div class="container">
+    <div class="sec-head">
+      <h2 class="sec-title">公演一覧</h2>
+      <a href="#" class="sec-link">すべて見る →</a>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="filter('all',this)">すべて</button>
+      <button class="tab-btn" onclick="filter('classic',this)">クラシック</button>
+      <button class="tab-btn" onclick="filter('light',this)">ライト・コラボ</button>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="detail-wrap">
+      <div class="detail-panel" id="panel">
+        <span class="d-close" onclick="closeDetail()">×</span>
+        <div class="detail-grid">
+          <div>
+            <p class="d-date" id="dDate"></p>
+            <h3 class="d-title" id="dTitle"></h3>
+            <table class="d-table">
+              <tr><td>会場</td><td id="dVenue"></td></tr>
+              <tr><td>開演</td><td id="dTime"></td></tr>
+              <tr><td>料金</td><td id="dPrice"></td></tr>
+            </table>
+            <p class="d-desc" id="dDesc"></p>
+          </div>
+          <div class="d-right">
+            <p class="d-tlabel">チケット購入・予約</p>
+            <div class="t-list" id="dBtns"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="section about-section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <h2 class="ab-title">クラシック音楽を、<br>もっと身近に。</h2>
+        <p class="ab-text">urahakuは、クラシック音楽のチケット販売運用と自主企画を手がけるエージェンシーです。本格的な公演から気軽に楽しめるライブまで、幅広い公演をサポートしています。<br><br>演奏家や主催者の方のご相談も受け付けています。お気軽にどうぞ。</p>
+        <a href="#" class="btn-outline">詳しく見る</a>
+      </div>
+      <div class="cards">
+        <div class="icard">
+          <div class="icard-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+          <p class="icard-title">チケット販売運用</p>
+          <p class="icard-text">各チケットサービスとの連携・電話対応もサポート</p>
+        </div>
+        <div class="icard">
+          <div class="icard-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg></div>
+          <p class="icard-title">自主企画コンサート</p>
+          <p class="icard-text">小〜中規模の公演を企画・プロデュース</p>
+        </div>
+        <div class="icard" style="grid-column:span 2;">
+          <div class="icard-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+          <p class="icard-title">音楽 × コラボレーション</p>
+          <p class="icard-text">飲食・空間・ファッションなど異業種との企画もお手伝いします</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="section" id="collab">
+  <div class="container">
+    <div class="co-grid">
+      <div>
+        <h2 class="co-title">音楽と、あなたの<br>事業をつなぎませんか。</h2>
+        <p class="co-text">クラシック音楽は、空間・食・ライフスタイルと相性がよく、新しい体験をつくりやすい素材です。業種・規模を問わず、まずはお気軽にご相談ください。</p>
+        <a href="#" class="btn-primary">コラボのご相談はこちら</a>
+      </div>
+      <div>
+        <div class="tags">
+          <span class="tag on">音楽 × カフェ</span>
+          <span class="tag">音楽 × ホテル</span>
+          <span class="tag on">音楽 × アート</span>
+          <span class="tag">音楽 × ファッション</span>
+          <span class="tag">音楽 × 食</span>
+          <span class="tag on">音楽 × テクノロジー</span>
+          <span class="tag">音楽 × 空間デザイン</span>
+          <span class="tag">音楽 × ウェルネス</span>
+        </div>
+        <p style="font-size:13px; color:var(--text-light); line-height:1.8;">これまでにない組み合わせも、ぜひご相談ください。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="f-top">
+      <div>
+        <p class="f-logo">urahaku</p>
+        <p class="f-tagline">クラシック音楽の企画・チケット運用</p>
+      </div>
+      <div class="f-cols">
+        <div class="f-col"><p class="f-ch">CONCERTS</p><a href="#">公演一覧</a><a href="#">チケット購入</a></div>
+        <div class="f-col"><p class="f-ch">COMPANY</p><a href="#">urahakuについて</a><a href="#">コラボレーション</a><a href="#">アーティストの方へ</a></div>
+        <div class="f-col"><p class="f-ch">CONTACT</p><a href="#">お問い合わせ</a><a href="#">03-XXXX-XXXX</a></div>
+      </div>
+    </div>
+    <div class="f-bottom"><p class="f-copy">© 2026 urahaku. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<a href="#contact" class="tel-btn">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  <span>お問い合わせ</span>
+</a>
+
+<script>
+const concerts = [
+  { type:'classic', date:'2026.04.12 SUN', title:'春のピアノリサイタル', sub:'山田 花子', venue:'東京文化会館 小ホール', time:'14:00開演（13:30開場）', price:'一般 ¥3,500 / 学生 ¥2,000', desc:'ショパン、シューマンを中心としたプログラム。春の訪れを感じさせる繊細な演奏をお楽しみください。', tickets:[{label:'teket でチケット購入',tel:false},{label:'e+ でも購入できます',tel:false},{label:'チケットぴあ',tel:false},{label:'購入方法でご不明な点はこちら',tel:true}], bg:'#EDE6DA', tc:'#2C1F14', status:'open' },
+  { type:'light', date:'2026.05.03 SUN', title:'寝そべりクラシック vol.1', sub:'ゆるっと音楽体験', venue:'代官山 某スペース', time:'15:00開演（14:30開場）', price:'¥2,500（ドリンク付）', desc:'床に寝転がりながらクラシックを聴く、新感覚の音楽体験。ドレスコードなし、初めての方も気軽にどうぞ。', tickets:[{label:'teket でチケット購入',tel:false},{label:'購入方法でご不明な点はこちら',tel:true}], bg:'#D8E4EE', tc:'#1A2744', status:'open' },
+  { type:'classic', date:'2026.06.20 SAT', title:'室内楽の午後', sub:'urahaku 自主企画', venue:'浜離宮朝日ホール', time:'15:00開演（14:30開場）', price:'近日公開', desc:'urahaku自主企画の室内楽シリーズ。詳細は近日公開予定です。メール登録で先行情報をお届けします。', tickets:[{label:'先行案内メールに登録',tel:false}], bg:'#E5DDD4', tc:'#2C1F14', status:'soon' },
+  { type:'light', date:'2026.07.12 SAT', title:'ヒビケン コンサート', sub:'響け！ケンハーモニカ', venue:'下北沢 某ライブハウス', time:'18:30開演（18:00開場）', price:'¥3,000', desc:'ケンハーモニカの魅力を体感できるライブ。クラシックの枠にとらわれない、新しい音楽体験です。', tickets:[{label:'teket でチケット購入',tel:false},{label:'購入方法でご不明な点はこちら',tel:true}], bg:'#DDE8D6', tc:'#1A2C14', status:'open' },
+  { type:'classic', date:'2026.08.24 SUN', title:'弦楽四重奏の夕べ', sub:'秋の室内楽シリーズ', venue:'王子ホール', time:'19:00開演（18:30開場）', price:'¥4,500', desc:'ベートーヴェン、ブラームスの名作を4人の弦楽奏者でお届けします。', tickets:[{label:'teket でチケット購入',tel:false},{label:'e+ でも購入できます',tel:false},{label:'ローソンチケット',tel:false},{label:'購入方法でご不明な点はこちら',tel:true}], bg:'#E5DDD4', tc:'#2C1F14', status:'open' },
+  { type:'light', date:'2026.09.06 SUN', title:'音楽 × カフェの朝', sub:'Morning Classic', venue:'渋谷 某カフェ', time:'10:00〜12:00', price:'¥3,800（モーニング付）', desc:'週末の朝をクラシックとともに。コーヒーを片手に、ゆっくりと音楽を楽しむ2時間です。', tickets:[{label:'teket でチケット購入',tel:false},{label:'購入方法でご不明な点はこちら',tel:true}], bg:'#EEE5D8', tc:'#2C1F14', status:'open' },
+];
+
+let cf='all', ci=-1;
+
+function filter(t,btn){
+  cf=t;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  closeDetail(); render();
+}
+
+function render(){
+  const list=cf==='all'?concerts:concerts.filter(c=>c.type===cf);
+  document.getElementById('grid').innerHTML=list.map(c=>{
+    const i=concerts.indexOf(c);
+    const tl=c.type==='classic'?'クラシック':'ライト系';
+    const tc=c.type==='classic'?'tc':'tl';
+    const sc=c.status==='open'?'s-open':'s-soon';
+    const sl=c.status==='open'?'受付中':'近日公開';
+    return `<div class="flyer${ci===i?' active':''}" onclick="showDetail(${i})">
+      <div class="flyer-img" style="background:${c.bg};color:${c.tc};">
+        <span class="flyer-type ${tc}">${tl}</span>
+        <p class="f-date" style="color:${c.tc};">${c.date}</p>
+        <p class="f-title" style="color:${c.tc};">${c.title}</p>
+        <p class="f-sub" style="color:${c.tc};">${c.sub}</p>
+      </div>
+      <div class="flyer-foot">
+        <span class="f-venue">${c.venue}</span>
+        <span class="${sc}">${sl}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function showDetail(i){
+  ci=i; const c=concerts[i];
+  document.getElementById('dDate').textContent=c.date;
+  document.getElementById('dTitle').textContent=c.title;
+  document.getElementById('dVenue').textContent=c.venue;
+  document.getElementById('dTime').textContent=c.time;
+  document.getElementById('dPrice').textContent=c.price;
+  document.getElementById('dDesc').textContent=c.desc;
+  document.getElementById('dBtns').innerHTML=c.tickets.map(t=>
+    `<a href="#" class="t-item${t.tel?' tel':''}"><span>${t.label}</span><span class="t-arr">→</span></a>`
+  ).join('');
+  const p=document.getElementById('panel');
+  p.style.display='block';
+  setTimeout(()=>p.scrollIntoView({behavior:'smooth',block:'nearest'}),50);
+  render();
+}
+
+function closeDetail(){
+  ci=-1;
+  document.getElementById('panel').style.display='none';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
