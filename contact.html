@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お問い合わせ | urahaku</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1A2744;
+    --gold: #C9A96E;
+    --gold-light: #E8D5A8;
+    --white: #ffffff;
+    --bg: #FAFAF8;
+    --bg-mid: #F4F2EE;
+    --text: #1A1A1A;
+    --text-mid: #555;
+    --text-light: #999;
+    --border: #E8E2D8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans JP', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 48px; height: 68px;
+    background: var(--navy);
+    border-bottom: 0.5px solid rgba(201,169,110,0.25);
+  }
+  .nav-logo { display: flex; align-items: center; text-decoration: none; }
+  .wordmark { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; letter-spacing: 0.28em; color: var(--gold-light); line-height: 1; border-bottom: 0.5px solid rgba(201,169,110,0.35); padding-bottom: 4px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 13px; font-weight: 400; letter-spacing: 0.05em; color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-contact { font-size: 13px; color: var(--gold); letter-spacing: 0.06em; border: 0.5px solid rgba(201,169,110,0.6); padding: 8px 20px; border-radius: 2px; text-decoration: none; }
+
+  .page-hero {
+    padding: 120px 80px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-hero-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px; letter-spacing: 0.22em; color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .page-hero-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 36px; font-weight: 400; color: var(--text);
+    line-height: 1.6; letter-spacing: 0.04em;
+    margin-bottom: 16px;
+  }
+
+  .page-hero-desc {
+    font-size: 15px; font-weight: 400; color: var(--text-mid);
+    line-height: 2; letter-spacing: 0.04em;
+  }
+
+  hr.divider { border: none; border-top: 0.5px solid var(--border); margin: 0 80px; }
+
+  .contact-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 72px 80px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+  }
+
+  .contact-info h3 {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 18px; font-weight: 400; color: var(--text);
+    margin-bottom: 20px; letter-spacing: 0.04em;
+  }
+
+  .contact-info-item {
+    margin-bottom: 28px;
+  }
+
+  .contact-info-item .label {
+    font-size: 11px; letter-spacing: 0.12em; color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .contact-info-item p {
+    font-size: 14px; font-weight: 400; color: var(--text-mid);
+    line-height: 1.9; letter-spacing: 0.03em;
+  }
+
+  .contact-types {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-top: 32px;
+  }
+
+  .contact-type {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: 4px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .contact-type:hover { border-color: var(--gold); background: #fff; }
+  .contact-type.active { border-color: var(--navy); background: #fff; }
+
+  .contact-type p {
+    font-size: 14px; font-weight: 500; color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .contact-type span {
+    font-size: 12px; color: var(--text-light);
+  }
+
+  /* FORM */
+  .contact-form {}
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 14px; font-weight: 500; color: var(--text);
+    margin-bottom: 8px; letter-spacing: 0.03em;
+  }
+
+  .form-group label span {
+    font-size: 11px; color: #E24B4A; margin-left: 4px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 0.5px solid var(--border);
+    border-radius: 3px;
+    font-size: 15px; font-weight: 400;
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--navy); }
+
+  .form-group textarea { resize: vertical; min-height: 160px; line-height: 1.8; }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '';
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--text-light);
+    pointer-events: none;
+  }
+
+  .form-note {
+    font-size: 13px; color: var(--text-light); line-height: 1.8;
+    margin-bottom: 28px; letter-spacing: 0.03em;
+  }
+
+  .submit-btn {
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 2px;
+    font-size: 15px; font-weight: 400;
+    font-family: 'Noto Sans JP', sans-serif;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    width: 100%;
+  }
+
+  .submit-btn:hover { opacity: 0.82; }
+
+  .success-msg {
+    display: none;
+    background: #EAF3DE;
+    border: 0.5px solid #8BC34A;
+    border-radius: 4px;
+    padding: 20px 24px;
+    font-size: 15px; color: #3B6D11;
+    line-height: 1.8; margin-top: 20px;
+  }
+
+  footer { background: var(--navy); padding: 52px 0 26px; margin-top: 80px; }
+  .f-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; }
+  .f-logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 400; letter-spacing: 0.24em; color: var(--gold-light); margin-bottom: 7px; }
+  .f-tagline { font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.32); letter-spacing: 0.04em; }
+  .f-cols { display: flex; gap: 44px; }
+  .f-ch { font-size: 10px; letter-spacing: 0.14em; color: var(--gold); margin-bottom: 13px; }
+  .f-col a { display: block; font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.55); text-decoration: none; margin-bottom: 9px; letter-spacing: 0.03em; transition: color 0.2s; }
+  .f-col a:hover { color: rgba(255,255,255,0.88); }
+  .f-bottom { border-top: 0.5px solid rgba(255,255,255,0.08); padding-top: 18px; }
+  .f-copy { font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 80px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <span class="wordmark">urahaku</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#concerts">公演一覧</a></li>
+    <li><a href="index.html#about">urahakuとは</a></li>
+    <li><a href="index.html#collab">コラボレーション</a></li>
+    <li><a href="#">アーティストの方へ</a></li>
+  </ul>
+  <span class="nav-contact">お問い合わせ</span>
+</nav>
+
+<div class="page-hero">
+  <p class="page-hero-label">CONTACT</p>
+  <h1 class="page-hero-title">お問い合わせ</h1>
+  <p class="page-hero-desc">チケット購入のご不明点、コラボレーションのご相談、アーティストの方からのご連絡など、<br>お気軽にご連絡ください。通常2〜3営業日以内にご返信いたします。</p>
+</div>
+
+<hr class="divider">
+
+<div class="contact-wrap">
+
+  <div class="contact-info">
+    <h3>お問い合わせ種別</h3>
+    <div class="contact-types">
+      <div class="contact-type active" onclick="setType(this, 'チケット購入・公演に関するご質問')">
+        <p>チケット・公演について</p>
+        <span>購入方法、公演詳細など</span>
+      </div>
+      <div class="contact-type" onclick="setType(this, 'コラボレーション・企画のご相談')">
+        <p>コラボレーション・企画のご相談</p>
+        <span>業種問わず、音楽を使った企画など</span>
+      </div>
+      <div class="contact-type" onclick="setType(this, 'アーティスト・演奏家からのご連絡')">
+        <p>アーティスト・演奏家の方</p>
+        <span>公演企画・チケット運用のご依頼</span>
+      </div>
+      <div class="contact-type" onclick="setType(this, 'その他のお問い合わせ')">
+        <p>その他</p>
+        <span>上記以外のご連絡</span>
+      </div>
+    </div>
+
+    
+  </div>
+
+  <div class="contact-form">
+    <form id="contactForm" action="https://formspree.io/f/mlgpvvkd" method="POST">
+      <input type="hidden" name="お問い合わせ種別" id="typeField" value="チケット購入・公演に関するご質問">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>お名前<span>*</span></label>
+          <input type="text" name="お名前" placeholder="山田 太郎" required>
+        </div>
+        <div class="form-group">
+          <label>フリガナ</label>
+          <input type="text" name="フリガナ" placeholder="ヤマダ タロウ">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>メールアドレス<span>*</span></label>
+        <input type="email" name="メールアドレス" placeholder="example@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label>電話番号</label>
+        <input type="tel" name="電話番号" placeholder="090-0000-0000">
+      </div>
+
+      <div class="form-group">
+        <label>件名<span>*</span></label>
+        <div class="select-wrap">
+          <select name="件名" required>
+            <option value="" disabled selected>件名を選択してください</option>
+            <option value="チケットの購入方法について">チケットの購入方法について</option>
+            <option value="コラボレーション・企画のご相談">コラボレーション・企画のご相談</option>
+            <option value="公演企画・チケット運用のご依頼">公演企画・チケット運用のご依頼</option>
+            <option value="取材・メディアのご依頼">取材・メディアのご依頼</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>お問い合わせ内容<span>*</span></label>
+        <textarea name="お問い合わせ内容" placeholder="お問い合わせの内容をご入力ください" required></textarea>
+      </div>
+
+      <p class="form-note">
+        ご入力いただいた個人情報は、お問い合わせへの対応のみに使用し、第三者への提供は行いません。
+      </p>
+
+      <button type="submit" class="submit-btn">送信する</button>
+
+      <div class="success-msg" id="successMsg">
+        お問い合わせありがとうございます。<br>
+        2〜3営業日以内にご返信いたします。
+      </div>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="f-top">
+      <div>
+        <p class="f-logo">urahaku</p>
+        <p class="f-tagline">音楽が、日常を豊かにする。</p>
+      </div>
+      <div class="f-cols">
+        <div class="f-col"><p class="f-ch">CONCERTS</p><a href="index.html#concerts">公演一覧</a></div>
+        <div class="f-col"><p class="f-ch">COMPANY</p><a href="index.html#about">urahakuについて</a><a href="index.html#collab">コラボレーション</a><a href="#">アーティストの方へ</a></div>
+        <div class="f-col"><p class="f-ch">CONTACT</p><a href="contact.html">お問い合わせ</a></div>
+      </div>
+    </div>
+    <div class="f-bottom"><p class="f-copy">© 2026 urahaku. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<script>
+function setType(el, value) {
+  document.querySelectorAll('.contact-type').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('typeField').value = value;
+}
+
+const form = document.getElementById('contactForm');
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = form.querySelector('.submit-btn');
+  btn.textContent = '送信中...';
+  btn.disabled = true;
+
+  const data = new FormData(form);
+  const res = await fetch(form.action, {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  });
+
+  if (res.ok) {
+    form.reset();
+    document.getElementById('successMsg').style.display = 'block';
+    btn.textContent = '送信完了';
+  } else {
+    btn.textContent = '送信する';
+    btn.disabled = false;
+    alert('送信に失敗しました。時間をおいて再度お試しください。');
+  }
+});
+</script>
+</body>
+</html>
