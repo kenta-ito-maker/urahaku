@@ -11,8 +11,8 @@
     "seats": null,
     "status": "on_sale",
     "ticket_url": "",
-    "curator_note": "東京文化会館の公演スケジュールページからは、対象期間内の具体的な公演情報を抽出できませんでした。",
+    "curator_note": "東京文化会館の公演情報ページからは、対象期間内の具体的な公演データを取得できませんでした。",
     "highlight": false,
-    "title": "公演情報なし"
+    "title": "該当公演なし"
   }
 ]
