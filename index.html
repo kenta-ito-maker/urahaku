@@ -268,17 +268,17 @@
       el.style.animationDelay = (i * 0.07) + 's';
       el.innerHTML = `
         <div style="font-family:'Playfair Display',serif;">
-          <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:0.2em;color:#C9A96E;display:block;">${d.getFullYear()}.${mm}</span>
-          <span style="font-size:40px;color:#fff;line-height:1;">${d.getDate()}</span>
-          <span style="font-family:'Noto Serif JP',serif;font-size:11px;color:rgba(255,255,255,0.45);display:block;">${WEEKDAYS[d.getDay()]}曜</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:0.2em;color:#C9A96E;display:block;">${d.getFullYear()}.${mm}</span>
+          <span style="font-size:52px;color:#fff;line-height:1;">${d.getDate()}</span>
+          <span style="font-family:'Noto Serif JP',serif;font-size:12px;color:rgba(255,255,255,0.45);display:block;">${WEEKDAYS[d.getDay()]}曜</span>
         </div>
         <div>
           <p style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:0.2em;color:#C9A96E;margin-bottom:6px;">${c.genre.toUpperCase()}</p>
-          <p style="font-family:'Noto Serif JP',serif;font-size:15px;color:#fff;margin-bottom:6px;letter-spacing:0.04em;">${c.title}</p>
-          <p style="font-size:12px;color:rgba(255,255,255,0.5);">${c.venue}（${c.area}）　${c.time}開演</p>
+          <p style="font-family:'Noto Serif JP',serif;font-size:18px;color:#fff;margin-bottom:8px;letter-spacing:0.04em;">${c.title}</p>
+          <p style="font-size:14px;color:rgba(255,255,255,0.5);">${c.venue}（${c.area}）　${c.time}開演</p>
         </div>
         <div style="text-align:right;">
-          <span style="font-family:'Playfair Display',serif;font-size:20px;color:#fff;display:block;">¥${c.price.toLocaleString()}</span>
+          <span style="font-family:'Playfair Display',serif;font-size:26px;color:#fff;display:block;">¥${c.price.toLocaleString()}</span>
           ${c.status !== 'sold_out' && c.ticket_url ? `<a href="${c.ticket_url}" target="_blank" style="display:inline-block;margin-top:8px;font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:0.15em;color:#1A2744;background:#C9A96E;padding:8px 16px;text-decoration:none;">チケット →</a>` : ''}
         </div>`;
       list.appendChild(el);
