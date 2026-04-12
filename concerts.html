@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONCERTS | urahaku</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1A2744;
+      --gold: #B8954A;
+      --gold-light: #E8D5A3;
+      --cream: #F7F4EE;
+      --ink: #1a1a18;
+      --ink-dim: rgba(26,26,24,0.45);
+      --ink-mid: rgba(26,26,24,0.7);
+      --rule: rgba(26,26,24,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Shippori Mincho', serif;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      padding: 28px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--rule);
+      background: #fff;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      color: var(--navy);
+      text-decoration: none;
+    }
+    nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      letter-spacing: 0.22em;
+      color: var(--ink-dim);
+      text-decoration: none;
+      margin-left: 32px;
+      transition: color 0.25s;
+      text-transform: uppercase;
+    }
+    nav a:hover, nav a.active { color: var(--gold); }
+
+    /* HERO */
+    .page-hero {
+      background: var(--navy);
+      padding: 72px 48px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: 'CONCERTS';
+      position: absolute;
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 160px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.04);
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+    .sec-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      letter-spacing: 0.3em;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+      display: block;
+    }
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: 0.04em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .page-title em { font-style: italic; color: var(--gold-light); }
+    .page-desc {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.55);
+      line-height: 2.1;
+      letter-spacing: 0.04em;
+      max-width: 440px;
+    }
+
+    /* FILTER */
+    .filter-bar {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 36px 48px 0;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      padding: 7px 18px;
+      border: 1px solid var(--rule);
+      background: #fff;
+      color: var(--ink-dim);
+      cursor: pointer;
+      transition: all 0.25s;
+      text-transform: uppercase;
+    }
+    .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-btn.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+    /* LIST */
+    .concerts-section {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 48px 120px;
+    }
+    #loading {
+      text-align: center;
+      padding: 80px 0;
+      color: var(--ink-dim);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+    }
+
+    .concert-card {
+      border-top: 1px solid var(--rule);
+      padding: 36px 0;
+      display: grid;
+      grid-template-columns: 96px 1fr 140px;
+      gap: 0 36px;
+      align-items: start;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+    .concert-card:last-child { border-bottom: 1px solid var(--rule); }
+    .concert-card.highlight {
+      background: #fff;
+      margin: 0 -24px;
+      padding: 36px 24px;
+      box-shadow: 0 1px 0 var(--rule), 0 -1px 0 var(--rule);
+      border-top: none;
+      border-bottom: none;
+    }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+    /* Date */
+    .card-date { font-family: 'Playfair Display', serif; }
+    .date-month { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.2em; color: var(--gold); display: block; margin-bottom: 2px; }
+    .date-day { font-size: 52px; font-weight: 400; color: var(--navy); line-height: 1; display: block; }
+    .date-weekday { font-family: 'Shippori Mincho', serif; font-size: 11px; color: var(--ink-dim); display: block; margin-top: 4px; }
+    .date-time { font-family: 'Shippori Mincho', serif; font-size: 12px; color: var(--ink-dim); display: block; margin-top: 8px; }
+
+    /* Body */
+    .card-body { padding-top: 6px; }
+    .card-genre { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.25em; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; }
+    .card-title { font-size: 17px; font-weight: 500; letter-spacing: 0.04em; line-height: 1.6; margin-bottom: 10px; color: var(--ink); }
+    .card-artists { font-size: 12.5px; color: var(--ink-mid); margin-bottom: 6px; letter-spacing: 0.04em; }
+    .card-venue { font-size: 12px; color: var(--ink-dim); letter-spacing: 0.03em; margin-bottom: 18px; }
+    .curator-note { border-left: 2px solid var(--gold); padding-left: 12px; font-size: 12.5px; color: var(--ink-mid); line-height: 2; letter-spacing: 0.04em; }
+    .urahaku-badge { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 0.2em; color: var(--navy); border: 1px solid var(--navy); padding: 3px 8px; display: inline-block; margin-bottom: 10px; }
+
+    /* Action */
+    .card-action { text-align: right; padding-top: 6px; }
+    .card-price { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 400; color: var(--ink); display: block; }
+    .price-unit { font-family: 'Shippori Mincho', serif; font-size: 11px; color: var(--ink-dim); }
+    .card-status { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.14em; padding: 4px 10px; display: inline-block; margin: 10px 0; }
+    .status-on_sale { border: 1px solid var(--gold); color: var(--gold); }
+    .status-few_left { border: 1px solid #c05050; color: #c05050; }
+    .status-sold_out { border: 1px solid #bbb; color: #bbb; }
+    .ticket-link { display: block; font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 0.18em; color: #fff; background: var(--navy); padding: 10px 16px; text-decoration: none; transition: background 0.25s; margin-top: 4px; text-align: center; }
+    .ticket-link:hover { background: var(--gold); }
+
+    /* FOOTER */
+    footer { background: var(--navy); padding: 40px; text-align: center; }
+    .f-logo { font-family: 'Playfair Display', serif; font-size: 18px; letter-spacing: 0.25em; color: #fff; margin-bottom: 10px; }
+    .f-copy { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 0.12em; }
+
+    @media (max-width: 620px) {
+      header { padding: 20px; }
+      .page-hero { padding: 48px 20px 44px; }
+      .page-title { font-size: 32px; }
+      .filter-bar, .concerts-section { padding-left: 20px; padding-right: 20px; }
+      .concert-card { grid-template-columns: 72px 1fr; }
+      .card-action { grid-column: 2; text-align: left; margin-top: 16px; }
+      .concert-card.highlight { margin: 0 -12px; padding: 28px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">urahaku</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="concerts.html" class="active">Concerts</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div class="page-hero">
+    <div class="hero-inner">
+      <span class="sec-label">CONCERTS — 注目の演奏会</span>
+      <h1 class="page-title">音楽の、<em>核心へ。</em></h1>
+      <p class="page-desc">大手サイトでは見えてこない、東京近郊のクラシック・弦楽・室内楽。urahakuが厳選した、本質的な演奏の場を紹介します。</p>
+    </div>
+  </div>
+
+  <div class="filter-bar" id="filterBar"></div>
+
+  <section class="concerts-section">
+    <div id="loading">読み込み中…</div>
+    <div id="concertList"></div>
+  </section>
+
+  <footer>
+    <p class="f-logo">urahaku</p>
+    <p class="f-copy">&copy; 2026 urahaku</p>
+  </footer>
+
+  <script>
+    const WEEKDAYS = ['日','月','火','水','木','金','土'];
+    const STATUS_LABEL = { on_sale: '受付中', few_left: '残席わずか', sold_out: '完売' };
+    let allConcerts = [], activeGenre = 'all';
+
+    async function loadConcerts() {
+      try {
+        const res = await fetch('./concerts.json');
+        if (!res.ok) throw new Error();
+        allConcerts = await res.json();
+        buildFilters(); render();
+      } catch {
+        document.getElementById('loading').textContent = 'データを取得できませんでした。';
+      }
+    }
+
+    function buildFilters() {
+      const genres = ['all', ...new Set(allConcerts.map(c => c.genre))];
+      const bar = document.getElementById('filterBar');
+      bar.innerHTML = '';
+      genres.forEach(g => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn' + (g === activeGenre ? ' active' : '');
+        btn.textContent = g === 'all' ? 'すべて' : g;
+        btn.addEventListener('click', () => {
+          activeGenre = g;
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          render();
+        });
+        bar.appendChild(btn);
+      });
+    }
+
+    function render() {
+      const list = document.getElementById('concertList');
+      document.getElementById('loading').style.display = 'none';
+      list.innerHTML = '';
+      const filtered = activeGenre === 'all' ? allConcerts : allConcerts.filter(c => c.genre === activeGenre);
+      if (!filtered.length) {
+        list.innerHTML = '<p style="color:var(--ink-dim);text-align:center;padding:60px 0;font-family:\'Cormorant Garamond\',serif;letter-spacing:0.1em;">該当する公演はありません</p>';
+        return;
+      }
+      filtered.forEach((c, i) => {
+        const d = new Date(c.date);
+        const mm = (d.getMonth()+1).toString().padStart(2,'0');
+        const card = document.createElement('div');
+        card.className = 'concert-card' + (c.highlight ? ' highlight' : '');
+        card.style.animationDelay = `${i * 0.08}s`;
+        card.innerHTML = `
+          <div class="card-date">
+            <span class="date-month">${d.getFullYear()}.${mm}</span>
+            <span class="date-day">${d.getDate()}</span>
+            <span class="date-weekday">${WEEKDAYS[d.getDay()]}曜日</span>
+            <span class="date-time">${c.time} 開演</span>
+          </div>
+          <div class="card-body">
+            ${c.highlight ? '<span class="urahaku-badge">urahaku 主催</span>' : ''}
+            <p class="card-genre">${c.genre}</p>
+            <h2 class="card-title">${c.title}</h2>
+            <p class="card-artists">${c.artists.join(' / ')}</p>
+            <p class="card-venue">📍 ${c.venue}（${c.area}）</p>
+            <blockquote class="curator-note">${c.curator_note}</blockquote>
+          </div>
+          <div class="card-action">
+            <span class="card-price">¥${c.price.toLocaleString()}<span class="price-unit"> 〜</span></span>
+            <span class="card-status status-${c.status}">${STATUS_LABEL[c.status]}</span>
+            ${c.status !== 'sold_out' && c.ticket_url ? `<a href="${c.ticket_url}" class="ticket-link" target="_blank" rel="noopener">チケット →</a>` : ''}
+          </div>`;
+        list.appendChild(card);
+      });
+    }
+
+    loadConcerts();
+  </script>
+</body>
+</html>
