@@ -13,7 +13,8 @@
     "status": "on_sale",
     "ticket_url": "https://www.t-bunka.jp/stage/",
     "curator_note": "上野の杜に響く本格的なクラシック公演。東京文化会館の優れた音響で、質の高い演奏をお楽しみいただけます。",
-    "highlight": false
+    "highlight": false,
+    "manual": true
   },
   {
     "id": "20260509-001",
